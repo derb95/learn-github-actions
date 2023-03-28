@@ -1,12 +1,9 @@
 name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
-on:
-  workflow_dispatch:
-env:
-  PRODUCT_VERSION: "latest" # or: "1.8.6"
+on: [push]
   
 jobs:
-  check-bats-version:
+  packer-testing:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,7 +13,7 @@ jobs:
         uses: hashicorp/setup-packer@main
         id: setup
         with:
-          version: ${{ env.PRODUCT_VERSION }}
+          version: ${{ env.PACKER_PRODUCT_VERSION }}
           
       - run: packer --version
       
