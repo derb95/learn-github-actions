@@ -10,17 +10,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - run: mkdir -p ./artifact
+
+      - run: echo hello > ./artifact/world.txt
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
         with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+          # Artifact name
+          name: myartifact # optional, default is artifact
+          # A file, directory or wildcard pattern that describes what to upload
+          path: ./artifact/world.txt
+          # The desired behavior if no files are found using the provided path.
+      
       - name: Setup `packer`
         uses: hashicorp/setup-packer@main
         id: setup
         with:
           version: ${{ env.PRODUCT_VERSION }}
+          
       - run: packer --version
+      
       - name: Run `packer init`
         id: init
         run: "packer init ./image.pkr.hcl"
