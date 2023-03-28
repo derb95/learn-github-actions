@@ -10,17 +10,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - run: mkdir -p ./artifact
-
-      - run: echo hello > ./artifact/world.txt
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          # Artifact name
-          name: myartifact # optional, default is artifact
-          # A file, directory or wildcard pattern that describes what to upload
-          path: ./artifact/world.txt
-          # The desired behavior if no files are found using the provided path.
+      - run: env
       
       - name: Setup `packer`
         uses: hashicorp/setup-packer@main
@@ -38,7 +28,4 @@ jobs:
         id: validate
         run: "packer validate ./image.pkr.hcl"
         
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: myartifact
+
