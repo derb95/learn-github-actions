@@ -14,3 +14,4 @@ jobs:
       - name: Setup `packer`
         uses: hashicorp/setup-packer@main
         id: setup
+      - run: packer --version
