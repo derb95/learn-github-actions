@@ -1,6 +1,10 @@
 name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
+
+env:
+  PRODUCT_VERSION: "latest" # or: "1.8.6"
+  
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
@@ -14,4 +18,13 @@ jobs:
       - name: Setup `packer`
         uses: hashicorp/setup-packer@main
         id: setup
+        with:
+          version: ${{ env.PRODUCT_VERSION }}
       - run: packer --version
+      - name: Run `packer init`
+        id: init
+        run: "packer init ./image.pkr.hcl"
+
+      - name: Run `packer validate`
+        id: validate
+        run: "packer validate ./image.pkr.hcl"
